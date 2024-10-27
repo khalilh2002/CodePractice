@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: code
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mydatabase
+    username: postgres
+    password: password
+  sql:
+    init:
+      mode: always
+
+pizza:
+  number-of-toppings: 126
+  pizza-name: khalil test
+  pizza-description: ahmed
+

@@ -1,0 +1,10 @@
+INSERT INTO khalil_post (id, name) VALUES (1, 'khalil1');
+INSERT INTO khalil_post (id, name) VALUES (2, 'khalil2');
+INSERT INTO khalil_post (id, name) VALUES (3, 'khalil3');
+INSERT INTO khalil_post (id, name) VALUES (4, 'khalil4');
+INSERT INTO khalil_post (id, name) VALUES (5, 'khalil5');
+INSERT INTO khalil_post (id, name) VALUES (6, 'khalil6');
+INSERT INTO khalil_post (id, name) VALUES (7, 'khalil7');
+INSERT INTO khalil_post (id, name) VALUES (8, 'khalil8');
+INSERT INTO khalil_post (id, name) VALUES (9, 'khalil9');
+INSERT INTO khalil_post (id, name) VALUES (10, 'khalil10');
