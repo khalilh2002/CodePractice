@@ -1,0 +1,18 @@
+spring:
+
+  application:
+    name: test
+
+  datasource:
+    url: jdbc:postgres://localhost:5432/mydatabase
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  sql:
+    init:
+      mode: always
+
+
+server:
+  port: 8080
