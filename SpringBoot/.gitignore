@@ -18,12 +18,12 @@
 .settings
 .springBeans
 .vscode
-/code
 MANIFEST.MF
 _site/
 activemq-data
 bin
 build
+/code
 !/**/src/**/bin
 !/**/src/**/build
 build.log
