@@ -1,10 +1,19 @@
 package com.tp.t10.entities;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+
+
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,include=JsonTypeInfo.As.PROPERTY,property="type")
+@JsonSubTypes({
+  @JsonSubTypes.Type(name="CC",value=CompteCourant.class),
+  @JsonSubTypes.Type(name="CE",value=CompteEpargne.class)
+})
 
 @Entity
 public abstract class Compte implements Serializable {
