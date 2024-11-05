@@ -4,14 +4,14 @@ spring:
     name: test
 
   datasource:
-    url: jdbc:postgres://localhost:5432/mydatabase
+    url: jdbc:postgresql://localhost:5432/test
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
 
-  sql:
-    init:
-      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: update
 
 
 server:
