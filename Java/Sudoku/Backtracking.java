@@ -2,6 +2,8 @@ package Sudoku;
 
 import java.util.*;
 
+import static java.lang.System.exit;
+
 public class Backtracking {
 
   public static String getVariable(ST<String, String> config) {
@@ -200,22 +202,67 @@ public class Backtracking {
         config.put("x" + i + "" + j, ""); // Variables non affectées
 
 
-
-
-    long temps1 = new Date().getTime();
-    /*
-    this is where to add the function to check the "containete" AC-3 , AC-2 and AC-1
-     */
     System.out.println();
 
-    ST<String, SET<String>> domainTable_after_ac = algo_AC_3(domainTable , G);
+    long temps1= new Date().getTime() ;
+    ST<String, SET<String>> domainTable_after_ac=null;
+/*
+    System.out.println("----------------------------------------------------------------------");
+    int choix = 0 ;
+    System.out.print("choisir \n| 1:AC-1; \n| 3:AC-3; \n| 4:AC-4 ; \n===>");
+    Scanner sc = new Scanner(System.in);
+    choix = sc.nextInt();
+    System.out.println("----------------------------------------------------------------------");
 
-    System.out.println("time first AC3 : "+(new Date().getTime() - temps1));
+    switch (choix){
+      case 1:
+        temps1 = new Date().getTime();
+        System.out.println();
+
+        domainTable_after_ac = algo_AC_1(domainTable , G);
+
+        System.out.println("time of AC1 : "+(new Date().getTime() - temps1));
+        break;
+      case 3:
+        temps1 = new Date().getTime();
+        System.out.println();
+
+        domainTable_after_ac = algo_AC_3(domainTable , G);
+
+        System.out.println("time of AC3 : "+(new Date().getTime() - temps1));
+        break;
+      case 4:
+        temps1 = new Date().getTime();
+        System.out.println();
+
+        domainTable_after_ac = algo_AC_4(domainTable , G);
+
+        System.out.println("time of AC4 : "+(new Date().getTime() - temps1));
+        break;
+      default:
+        exit(0);
+
+    }
+    sc.close();
+
+*/
+
+
+
+    /*
+    this is where to add the function to check the "constraints" AC-3 , AC-4 and AC-1
+            -> algo_AC_1(domainTable , G);
+            -> algo_AC_3(domainTable , G);
+            -> algo_AC_4(domainTable , G);
+
+            utiliser :
+            domainTable_after_ac =  algo_AC_1(domainTable , G);
+     */
 
 
     System.out.println("\nCalcul en cours ... ");
 
-    ST<String, String> result = backtracking(config,  domainTable_after_ac, G);
+    ST<String, String> result = backtracking(config,  domainTable, G);
 
 
     // Afficher la solution
@@ -355,6 +402,79 @@ public class Backtracking {
   private static boolean verifierConstraint(String x, String y){
     return !x.equals(y);
   }
+
+
+  private static ST<String, SET<String>> algo_AC_4(ST<String, SET<String>> domainTable, Graph graph) {
+    // Initialize support counter and inverse support sets
+    Map<String, Map<String, Integer>> supportCount = new HashMap<>();
+    Map<String, Map<String, SET<String>>> supportedValues = new HashMap<>();
+    Queue<String[]> queue = new LinkedList<>();
+
+    // Initialize support structures and queue
+    for (String variable : domainTable) {
+      for (String value : domainTable.get(variable)) {
+        // Initialize the support count for each value of the variable
+        supportCount.putIfAbsent(variable, new HashMap<>());
+        supportCount.get(variable).put(value, 0);
+
+        // Initialize supported values for each variable and value
+        supportedValues.putIfAbsent(variable, new HashMap<>());
+        supportedValues.get(variable).putIfAbsent(value, new SET<>()); // Ensure the SET is initialized
+
+        // Check adjacent variables for support
+        for (String neighbor : graph.adjacentTo(variable)) {
+          boolean hasSupport = false;
+          for (String neighborValue : domainTable.get(neighbor)) {
+            if (verifierConstraint(value, neighborValue)) {
+              hasSupport = true;
+              supportCount.get(variable).put(value, supportCount.get(variable).get(value) + 1);
+
+              // Initialize nested map and SET if not already present
+              supportedValues.putIfAbsent(neighbor, new HashMap<>());
+              supportedValues.get(neighbor).putIfAbsent(neighborValue, new SET<>());
+
+              supportedValues.get(neighbor).get(neighborValue).add(value);
+            }
+          }
+          if (!hasSupport) {
+            queue.add(new String[]{variable, value});
+          }
+        }
+      }
+    }
+
+    // Process the queue to remove unsupported values
+    while (!queue.isEmpty()) {
+      String[] pair = queue.poll();
+      String variable = pair[0];
+      String value = pair[1];
+
+      // Remove the unsupported value from the domain
+      domainTable.get(variable).remove(value);
+      if (domainTable.get(variable).size()==0) {
+        return null; // No solution if a domain becomes empty
+      }
+
+      // Propagate changes to neighbors
+      for (String neighbor : graph.adjacentTo(variable)) {
+        for (String neighborValue : domainTable.get(neighbor)) {
+          if (supportedValues.get(variable).get(value).contains(neighborValue)) {
+            supportedValues.get(variable).get(value).remove(neighborValue);
+            supportCount.get(neighbor).put(neighborValue, supportCount.get(neighbor).get(neighborValue) - 1);
+            if (supportCount.get(neighbor).get(neighborValue) == 0) {
+              queue.add(new String[]{neighbor, neighborValue});
+            }
+          }
+        }
+      }
+    }
+
+    return domainTable;
+  }
+
+
+
+
 
 
 }
