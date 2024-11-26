@@ -1,8 +1,11 @@
 package com.lsi.jee.controller;
 
+import com.lsi.jee.entity.Client;
 import com.lsi.jee.entity.Commande;
 import com.lsi.jee.entity.Produit;
+import com.lsi.jee.service.ClientService;
 import com.lsi.jee.service.CommandeService;
+import com.lsi.jee.service.ProduitService;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -25,6 +28,12 @@ public class CommandeController extends HttpServlet {
   @Inject
   CommandeService commandeService;
 
+  @Inject
+  ProduitService produitService;
+
+  @Inject
+  ClientService clientService;
+
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,7 +54,10 @@ public class CommandeController extends HttpServlet {
           request.getRequestDispatcher("/WEB-INF/view/commande/list.jsp").forward(request, response);
           break;
         case "add":
-          List<Produit> produits ;
+          List<Produit> produits = produitService.getAllProduits();
+          List<Client> clients = clientService.getAllClients();
+          request.setAttribute("produits", produits);
+          request.setAttribute("clients", clients);
           request.getRequestDispatcher("/WEB-INF/view/commande/add.jsp").forward(request, response);
           break;
         default:

@@ -3,12 +3,13 @@ package com.lsi.jee.dao;
 import com.lsi.jee.entity.Produit;
 import com.lsi.jee.repository.ProduitRepository;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import java.util.List;
-
+@ApplicationScoped
 public class ProduitDao implements ProduitRepository {
 
   @Inject

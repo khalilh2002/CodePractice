@@ -2,12 +2,13 @@ package com.lsi.jee.dao;
 
 import com.lsi.jee.entity.Commande;
 import com.lsi.jee.repository.CommandeRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
-
+@ApplicationScoped
 public class CommandeDao implements CommandeRepository {
   @Inject
   private EntityManager entityManager;

@@ -1,14 +1,9 @@
 package com.lsi.jee.service;
 import com.lsi.jee.entity.Client;
-import com.lsi.jee.entity.Commande;
 import com.lsi.jee.repository.ClientRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Default;
-import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import lombok.extern.java.Log;
-
 import java.util.List;
 
 @Log
