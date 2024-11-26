@@ -1,0 +1,16 @@
+package com.lsi.jee.repository;
+
+import com.lsi.jee.entity.Client;
+import com.lsi.jee.entity.Commande;
+
+import java.util.List;
+
+
+public interface ClientRepository {
+
+  void save(Client client);
+  Client findByClientId(Long clientId);
+  List<Client> findAll();
+  void delete(Client client);
+
+}
