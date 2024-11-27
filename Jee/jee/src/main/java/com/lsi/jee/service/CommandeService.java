@@ -9,7 +9,6 @@ import com.lsi.jee.repository.ProduitRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.transaction.Transactional;
 import lombok.extern.java.Log;
@@ -19,6 +18,7 @@ import java.util.List;
 
 @Log
 @ApplicationScoped
+@Transactional
 public class CommandeService {
 
   @Inject
@@ -54,16 +54,23 @@ public void test(){
   }
 
 
-
+  @Transactional
   public void addCommande(Long clientId, List<Long> produitIdList) {
-    // Fetch the client to ensure it's in the current persistence context
-    Client client = new Client();
-    client.setId(clientId);
+    Client client = clientRepository.findByClientId(clientId);
+    if (entityManager.contains(client)){
+      log.info("Client exist in entitymanger **********************************************************************");
+    }else {
+      log.info("Client delete in entitymanger::::////////////////////::::::::::::::::::::::::::::::::::::::::::::::::::::::::: **********************************************************************");
+
+    }
     if (client == null) {
       throw new IllegalArgumentException("Client not found with ID: " + clientId);
     }
 
-    // Fetch products and ensure they're valid
+    // Merge client to reattach it to the current persistence context
+    client = entityManager.merge(client);
+
+    // Fetch products
     List<Produit> produits = new ArrayList<>();
     for (Long produitId : produitIdList) {
       Produit produit = produitRepository.findByProduitId(produitId);
@@ -75,12 +82,13 @@ public void test(){
 
     // Create and save the commande
     Commande commande = new Commande();
-    commande.setClient(client); // Client is attached since it was retrieved in the same transaction
+    commande.setClient(client);
     commande.setProduits(produits);
     commande.setQuantite(produits.size());
 
-    commandeRepository.save(commande); // Save should now work
+    commandeRepository.save(commande); // Ensure save is transactional
   }
+
 
 
 }

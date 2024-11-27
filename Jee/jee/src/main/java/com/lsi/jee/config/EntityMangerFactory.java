@@ -13,8 +13,10 @@ public class EntityMangerFactory {
   private EntityManagerFactory entityManagerFactory =
     Persistence.createEntityManagerFactory("default");
 
+  private final EntityManager entityManager = entityManagerFactory.createEntityManager();
+
   @Produces
   public EntityManager produceEntityManager() {
-    return entityManagerFactory.createEntityManager();
+    return entityManager;
   }
 }

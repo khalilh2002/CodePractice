@@ -16,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(value = "/commande/*")
+@Transactional
 public class CommandeController extends HttpServlet {
 
   @Inject

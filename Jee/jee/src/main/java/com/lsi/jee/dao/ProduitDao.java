@@ -4,6 +4,7 @@ import com.lsi.jee.entity.Produit;
 import com.lsi.jee.repository.ProduitRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Default;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -11,13 +12,14 @@ import java.util.List;
 
 
 @ApplicationScoped
+@Transactional
+@Default
 public class ProduitDao implements ProduitRepository {
 
   @Inject
   private EntityManager entityManager;
 
   @Override
-  @Transactional
   public void save(Produit produit) {
     if (entityManager.find(Produit.class , produit.getId()) == null) {
       // Persist a new product
@@ -41,7 +43,6 @@ public class ProduitDao implements ProduitRepository {
   }
 
   @Override
-  @Transactional
   public void delete(Produit produit) {
     entityManager.remove(produit);
   }

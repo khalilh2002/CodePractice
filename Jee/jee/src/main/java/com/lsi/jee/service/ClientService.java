@@ -3,11 +3,13 @@ import com.lsi.jee.entity.Client;
 import com.lsi.jee.repository.ClientRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lombok.extern.java.Log;
 import java.util.List;
 
 @Log
 @ApplicationScoped
+@Transactional
 public class ClientService {
 
   @Inject
