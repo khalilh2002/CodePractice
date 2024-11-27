@@ -22,7 +22,7 @@ public class ProduitDao implements ProduitRepository {
   @Override
   public void save(Produit produit) {
     entityManager.getTransaction().begin();
-    if (entityManager.find(Produit.class , produit.getId()) == null) {
+    if (produit.getId() == null) {
       // Persist a new product
       entityManager.persist(produit);
     } else {
