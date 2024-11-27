@@ -4,6 +4,7 @@
 <body>
 <div class="container mt-5">
   <h1>List of Clients</h1>
+  <a href="./client/add" class="btn btn-success">Add</a>
   <table class="table">
     <thead>
     <tr>

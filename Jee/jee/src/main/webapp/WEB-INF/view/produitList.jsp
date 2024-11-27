@@ -45,6 +45,8 @@
 
 <div class="container my-5">
   <h1>Produit List</h1>
+  <a href="./produit/add" class="btn btn-success">Add</a>
+
   <table class="table table-striped">
     <thead>
     <tr>

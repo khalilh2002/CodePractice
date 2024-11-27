@@ -9,7 +9,10 @@
 <jsp:include page="../include/head.jsp"/><%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <body>
+
 <div class="container mt-5">
+  <a href="./commande/add" class="btn btn-success">Add</a>
+
   <h1>List of commandes</h1>
   <table class="table">
     <thead>
