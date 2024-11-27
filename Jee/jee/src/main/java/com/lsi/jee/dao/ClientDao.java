@@ -18,12 +18,16 @@ public class ClientDao implements ClientRepository {
   private EntityManager entityManager;
 
 
-
   @Override
-  @Transactional
   public void save(Client client) {
-      entityManager.getTransaction().begin();
+    entityManager.getTransaction().begin();
+
+    if (client.getId() == null) {
       entityManager.persist(client);
+
+    }else {
+      entityManager.merge(client);
+    }
       entityManager.getTransaction().commit();
   }
 
@@ -38,7 +42,6 @@ public class ClientDao implements ClientRepository {
   }
 
   @Override
-  @Transactional
   public void delete(Client client) {
     entityManager.getTransaction().begin();
     entityManager.remove(client);

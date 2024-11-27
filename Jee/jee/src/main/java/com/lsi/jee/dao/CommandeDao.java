@@ -16,7 +16,13 @@ public class CommandeDao implements CommandeRepository {
   @Override
   @Transactional
   public void save(Commande command) {
-    entityManager.persist(command);
+    entityManager.getTransaction().begin();
+    if (command.getId() == null) {
+      entityManager.persist(command);
+    }else {
+      entityManager.merge(command);
+    }
+    entityManager.getTransaction().commit();
   }
 
   @Override

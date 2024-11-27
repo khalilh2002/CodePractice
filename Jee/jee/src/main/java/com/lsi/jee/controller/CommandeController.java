@@ -34,6 +34,10 @@ public class CommandeController extends HttpServlet {
   @Inject
   ClientService clientService;
 
+  @Override
+  public void init() throws ServletException {
+    commandeService.test();
+  }
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +46,6 @@ public class CommandeController extends HttpServlet {
 
 
     String pathvalue = request.getPathInfo();
-    out.println(pathvalue);
     if (pathvalue == null || pathvalue.equals("/")) {
       request.getRequestDispatcher("/WEB-INF/view/commande/list.jsp").forward(request, response);
     } else if (pathvalue.startsWith("/")) {
@@ -90,7 +93,6 @@ public class CommandeController extends HttpServlet {
               Long clientId = jsonObject.getJsonNumber("client_id").longValue();
               JsonArray produitIdsJson = jsonObject.getJsonArray("produit_ids");
 
-              // Convert JSON array to List<Long>
               List<Long> produitIds = new ArrayList<>();
               for (int i = 0; i < produitIdsJson.size(); i++) {
                 produitIds.add(produitIdsJson.getJsonNumber(i).longValue());
