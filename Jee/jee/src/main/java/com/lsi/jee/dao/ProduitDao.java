@@ -12,7 +12,6 @@ import java.util.List;
 
 
 @ApplicationScoped
-@Transactional
 @Default
 public class ProduitDao implements ProduitRepository {
 
@@ -47,7 +46,13 @@ public class ProduitDao implements ProduitRepository {
   @Override
   public void delete(Produit produit) {
     entityManager.getTransaction().begin();
-    entityManager.remove(produit);
+
+      if (!entityManager.contains(produit)) {
+        produit = entityManager.merge(produit); // Merge if not managed
+      }
+      entityManager.remove(produit);  // Remove the entity
+
+
     entityManager.getTransaction().commit();
   }
 }

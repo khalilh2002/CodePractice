@@ -17,11 +17,11 @@ public class Commande implements Serializable {
   @Column(nullable = false)
   private Integer quantite;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+  @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST , CascadeType.REMOVE})
   @JoinColumn(name = "client_id", nullable = false)
   private Client client;
 
-  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE })
   @JoinTable(
     name = "commande_produit",
     joinColumns = @JoinColumn(name = "commande_id"),

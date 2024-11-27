@@ -103,6 +103,9 @@ public class ProduitController extends HttpServlet {
         case "add":
           handleAddProduit(jsonObject, response);
           break;
+        case "delete":
+          handleDeleteProduit(jsonObject, response);
+          break;
         default:
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           response.getWriter().write("{\"error\": \"Invalid action.\"}");
@@ -119,5 +122,21 @@ public class ProduitController extends HttpServlet {
     produitService.addProduit(nomProduit, prix);
     response.setStatus(HttpServletResponse.SC_OK);
     response.getWriter().write("{\"message\": \"Produit added successfully.\"}");
+  }
+
+
+  private void handleDeleteProduit(JsonObject jsonObject, HttpServletResponse response) throws IOException {
+    try {
+      Long id = jsonObject.getJsonNumber("id").longValue();
+      produitService.deleteProduit(id);
+      response.setStatus(HttpServletResponse.SC_OK);
+      response.getWriter().write("{\"message\": \"Produit deleted successfully.\"}");
+    } catch (IllegalArgumentException e) {
+      response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+      response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
+    } catch (Exception e) {
+      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      response.getWriter().write("{\"error\": \"An error :"+e.getMessage()+" .\"}");
+    }
   }
 }

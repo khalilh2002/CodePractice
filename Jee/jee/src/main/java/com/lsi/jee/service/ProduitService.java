@@ -33,4 +33,14 @@ public class ProduitService {
     produit.setPrix(prix);
     produitRepository.save(produit);
   }
+
+  public void deleteProduit(Long id) {
+    Produit produit = produitRepository.findByProduitId(id);
+    if (produit != null) {
+      produitRepository.delete(produit);
+    } else {
+      throw new IllegalArgumentException("Produit not found for ID: " + id);
+    }
+  }
+
 }
