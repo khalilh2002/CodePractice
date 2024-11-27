@@ -43,4 +43,16 @@ public class ProduitService {
     }
   }
 
+  public void editProduit(Long id, String newNomProduit, BigDecimal newPrix) {
+    Produit produit = produitRepository.findByProduitId(id);
+    if (produit != null) {
+      produit.setNomProduit(newNomProduit);
+      produit.setPrix(newPrix);
+      produitRepository.save(produit); // Save the updated product
+    } else {
+      throw new IllegalArgumentException("Produit not found for ID: " + id);
+    }
+  }
+
+
 }

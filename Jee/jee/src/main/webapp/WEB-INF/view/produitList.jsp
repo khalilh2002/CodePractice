@@ -61,6 +61,8 @@
         <td><c:out value="${produit.nomProduit}" /></td>
         <td><c:out value="${produit.prix}" /></td>
         <td>
+          <a href="./produit/edit?id=${produit.id}" class="btn btn-warning">edit</a>
+
           <a href="./produit/${produit.id}" class="btn btn-primary">Details</a>
           <a onclick="deleteProduit(${produit.id})" class="btn btn-danger">delete</a>
         </td>

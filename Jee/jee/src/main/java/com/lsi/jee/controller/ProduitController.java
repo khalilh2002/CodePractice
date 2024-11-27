@@ -64,8 +64,9 @@ public class ProduitController extends HttpServlet {
 
   private void handleGetRequestByType(String pathInfo, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String type = pathInfo.substring(1);
-
-    if (type.equals("add")) {
+    if (pathInfo.startsWith("/edit")) {
+      handleEditPage(request, response);
+    }else if (type.equals("add")) {
       request.getRequestDispatcher("/WEB-INF/view/addProduit.jsp").forward(request, response);
     } else if (type.equals("list")) {
       showAllProduits(request, response);
@@ -106,6 +107,9 @@ public class ProduitController extends HttpServlet {
         case "delete":
           handleDeleteProduit(jsonObject, response);
           break;
+        case "edit":
+          handleEditProduit(jsonObject, response);
+          break;
         default:
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           response.getWriter().write("{\"error\": \"Invalid action.\"}");
@@ -139,4 +143,46 @@ public class ProduitController extends HttpServlet {
       response.getWriter().write("{\"error\": \"An error :"+e.getMessage()+" .\"}");
     }
   }
+
+  private void handleEditPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    try {
+      String idStr = request.getParameter("id");
+      if (idStr == null) {
+        throw new IllegalArgumentException("No ID provided.");
+      }
+
+      Long id = Long.parseLong(idStr);
+      Produit produit = produitService.getProduit(id);
+
+      if (produit != null) {
+        request.setAttribute("produit", produit);
+        request.getRequestDispatcher("/WEB-INF/view/editProduit.jsp").forward(request, response);
+      } else {
+        response.getWriter().write("Produit not found for ID: " + id);
+      }
+    } catch (NumberFormatException e) {
+      response.getWriter().write("Invalid ID format.");
+    } catch (IllegalArgumentException e) {
+      response.getWriter().write(e.getMessage());
+    }
+  }
+  private void handleEditProduit(JsonObject jsonObject, HttpServletResponse response) throws IOException {
+    try {
+      Long id = Long.parseLong(jsonObject.getString("id"));
+      String newNomProduit = jsonObject.getString("nomProduit");
+      BigDecimal newPrix = new BigDecimal(jsonObject.getString("prix"));
+
+      produitService.editProduit(id, newNomProduit, newPrix);
+
+      response.setStatus(HttpServletResponse.SC_OK);
+      response.getWriter().write("{\"message\": \"Produit updated successfully.\"}");
+    } catch (IllegalArgumentException e) {
+      response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+      response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
+    } catch (Exception e) {
+      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      response.getWriter().write("{\"error\": \"An error occurred: " + e.getMessage() + "\"}");
+    }
+  }
+
 }
