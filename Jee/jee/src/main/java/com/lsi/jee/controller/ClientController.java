@@ -68,7 +68,9 @@ public class ClientController extends HttpServlet {
       request.getRequestDispatcher("/WEB-INF/view/addClient.jsp").forward(request, response);
     } else if (type.equals("list")) {
       showAllClients(request, response);
-    } else {
+    } else if(type.equals("edit")) {
+      showEditClientForm(request, response);
+    }else {
       handleClientDetailsOrError(type, request, response);
     }
   }
@@ -104,6 +106,9 @@ public class ClientController extends HttpServlet {
         case "delete":
           handleDeleteClient(jsonObject, response);
           break;
+        case "edit":
+          handleEditClient(jsonObject, response);
+          break;
         default:
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           response.getWriter().write("{\"error\": \"Invalid action.\"}");
@@ -135,4 +140,43 @@ public class ClientController extends HttpServlet {
       response.getWriter().write("{\"error\": \"Client not found.\"}");
     }
   }
+
+
+
+
+
+  private void showEditClientForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String idParam = request.getParameter("id");
+    if (idParam != null) {
+      try {
+        Long id = Long.parseLong(idParam);
+        Client client = clientService.getClient(id);
+        if (client != null) {
+          request.setAttribute("client", client);
+          request.getRequestDispatcher("/WEB-INF/view/editClient.jsp").forward(request, response);
+        } else {
+          response.getWriter().write("Client not found for ID: " + id);
+        }
+      } catch (NumberFormatException e) {
+        response.getWriter().write("Invalid ID format.");
+      }
+    } else {
+      response.getWriter().write("Client ID is required.");
+    }
+  }
+  private void handleEditClient(JsonObject jsonObject, HttpServletResponse response) throws IOException {
+    try {
+      Long id = jsonObject.getJsonNumber("id").longValue();
+      String nom = jsonObject.getString("nom");
+      String prenom = jsonObject.getString("prenom");
+
+      clientService.updateClient(id, nom, prenom);
+      response.setStatus(HttpServletResponse.SC_OK);
+      response.getWriter().write("{\"message\": \"Client updated successfully.\"}");
+    } catch (Exception e) {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
+    }
+  }
+
 }

@@ -55,4 +55,18 @@ public class ClientService {
     return client;
   }
 
+
+
+  public void updateClient(Long id, String nom, String prenom) {
+    Client client = clientRepository.findByClientId(id);
+    if (client != null) {
+      client.setNom(nom);
+      client.setPrenom(prenom);
+      clientRepository.save(client); // Save the updated client
+    } else {
+      throw new IllegalArgumentException("Client not found for ID: " + id);
+    }
+  }
+
+
 }

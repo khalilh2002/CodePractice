@@ -20,6 +20,8 @@
         <td>${client.nom}</td>
         <td>${client.prenom}</td>
         <td>
+          <a href="./client/edit?id=${client.id}" class="btn btn-warning">edit</a>
+
           <a href="./client/${client.id}" class="btn btn-primary">View</a>
           <button class="btn btn-danger" onclick="deleteClient(${client.id})">Delete</button>
         </td>
