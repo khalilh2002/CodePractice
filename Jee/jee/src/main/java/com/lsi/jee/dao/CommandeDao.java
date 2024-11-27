@@ -10,7 +10,6 @@ import jakarta.transaction.Transactional;
 
 import java.util.List;
 @ApplicationScoped
-@Transactional
 @Default
 public class CommandeDao implements CommandeRepository {
   @Inject
@@ -39,6 +38,8 @@ public class CommandeDao implements CommandeRepository {
 
   @Override
   public void delete(Commande command) {
+    entityManager.getTransaction().begin();
     entityManager.remove(command);
+    entityManager.getTransaction().commit();
   }
 }

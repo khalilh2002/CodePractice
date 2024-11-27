@@ -49,6 +49,8 @@ public class CommandeController extends HttpServlet {
 
     String pathvalue = request.getPathInfo();
     if (pathvalue == null || pathvalue.equals("/")) {
+      List<Commande> commandes = commandeService.getAllCommandes();
+      request.setAttribute("commandes", commandes);
       request.getRequestDispatcher("/WEB-INF/view/commande/list.jsp").forward(request, response);
     } else if (pathvalue.startsWith("/")) {
       String type = pathvalue.substring(1);

@@ -21,6 +21,7 @@ public class ProduitDao implements ProduitRepository {
 
   @Override
   public void save(Produit produit) {
+    entityManager.getTransaction().begin();
     if (entityManager.find(Produit.class , produit.getId()) == null) {
       // Persist a new product
       entityManager.persist(produit);
@@ -28,6 +29,7 @@ public class ProduitDao implements ProduitRepository {
       // Merge an existing product
       entityManager.merge(produit);
     }
+    entityManager.getTransaction().commit();
   }
 
   @Override
@@ -44,6 +46,8 @@ public class ProduitDao implements ProduitRepository {
 
   @Override
   public void delete(Produit produit) {
+    entityManager.getTransaction().begin();
     entityManager.remove(produit);
+    entityManager.getTransaction().commit();
   }
 }
