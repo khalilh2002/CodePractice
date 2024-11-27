@@ -89,6 +89,20 @@ public void test(){
     commandeRepository.save(commande); // Ensure save is transactional
   }
 
+  public Commande getCommandeWithDetails(Long id) {
+    Commande commande = commandeRepository.findByCommandId(id);
+    if (commande == null) {
+      throw new IllegalArgumentException("Commande not found with ID: " + id);
+    }
+
+    // Force loading of lazy associations
+    commande.getClient().getId(); // Access client to initialize
+    commande.getProduits().size(); // Access products to initialize
+
+    return commande;
+  }
+
+
 
 
 }

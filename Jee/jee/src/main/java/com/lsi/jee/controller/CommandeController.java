@@ -88,7 +88,7 @@ public class CommandeController extends HttpServlet {
   private void handleGetSingleCommande(String type, HttpServletRequest request, HttpServletResponse response, PrintWriter out) throws ServletException, IOException {
     try {
       Long id = Long.parseLong(type);
-      Commande commande = commandeService.getCommandeById(id);
+      Commande commande = commandeService.getCommandeWithDetails(id);
       request.setAttribute("commande", commande);
       request.getRequestDispatcher("/WEB-INF/view/commande/one.jsp").forward(request, response);
     } catch (NumberFormatException e) {
