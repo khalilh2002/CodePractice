@@ -1,7 +1,6 @@
 package com.lsi.jee.repository;
 
 import com.lsi.jee.entity.Client;
-import com.lsi.jee.entity.Commande;
 
 import java.util.List;
 

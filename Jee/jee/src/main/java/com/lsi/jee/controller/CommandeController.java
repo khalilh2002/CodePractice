@@ -36,10 +36,6 @@ public class CommandeController extends HttpServlet {
   @Inject
   ClientService clientService;
 
-  @Override
-  public void init() throws ServletException {
-    commandeService.test();
-  }
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -97,7 +93,7 @@ public class CommandeController extends HttpServlet {
   }
 
   @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
     response.setContentType("application/json;charset=UTF-8");
 
     String pathvalue = request.getPathInfo();

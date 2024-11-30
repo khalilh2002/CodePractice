@@ -1,7 +1,6 @@
 package com.lsi.jee.service;
 
 import com.lsi.jee.entity.Produit;
-import com.lsi.jee.repository.CommandeRepository;
 import com.lsi.jee.repository.ProduitRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

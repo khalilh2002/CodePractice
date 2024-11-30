@@ -9,7 +9,6 @@ import com.lsi.jee.repository.ProduitRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Persistence;
 import jakarta.transaction.Transactional;
 import lombok.extern.java.Log;
 
@@ -33,10 +32,6 @@ public class CommandeService {
   @Inject
   private EntityManager entityManager;
 
-public void test(){
-  EntityManager em = Persistence.createEntityManagerFactory("default").createEntityManager();
-
-}
 
 
 

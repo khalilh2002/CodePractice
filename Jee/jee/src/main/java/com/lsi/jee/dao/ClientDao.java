@@ -6,7 +6,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Default;
 import jakarta.inject.Inject;
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 
 
 import java.util.List;

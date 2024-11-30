@@ -15,14 +15,6 @@ public class ClientService {
   @Inject
   private ClientRepository clientRepository;
 
-  public void test(){
-    log.info("repositrot is not null");
-    Client client = new Client();
-    client.setNom("khalildd");
-    client.setPrenom("fdsfdfdsfdssf");
-
-    clientRepository.save(client);
-  }
 
   public List<Client> getAllClients(){
     return clientRepository.findAll();
@@ -47,9 +39,7 @@ public class ClientService {
   public Client getClientCommande(Long id){
     Client client = clientRepository.findByClientId(id);
     if (client != null) {
-      client.getCommandes().forEach(commande->{
-        commande.setQuantite(commande.getProduits().size());
-      });
+      client.getCommandes().forEach(commande-> commande.setQuantite(commande.getProduits().size()));
     }
 
     return client;

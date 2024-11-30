@@ -40,7 +40,7 @@ public class ClientController extends HttpServlet {
   }
 
   @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
 
@@ -64,14 +64,11 @@ public class ClientController extends HttpServlet {
   private void handleGetRequestByType(String pathInfo, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String type = pathInfo.substring(1);
 
-    if (type.equals("add")) {
-      request.getRequestDispatcher("/WEB-INF/view/addClient.jsp").forward(request, response);
-    } else if (type.equals("list")) {
-      showAllClients(request, response);
-    } else if(type.equals("edit")) {
-      showEditClientForm(request, response);
-    }else {
-      handleClientDetailsOrError(type, request, response);
+    switch (type) {
+      case "add" -> request.getRequestDispatcher("/WEB-INF/view/addClient.jsp").forward(request, response);
+      case "list" -> showAllClients(request, response);
+      case "edit" -> showEditClientForm(request, response);
+      default -> handleClientDetailsOrError(type, request, response);
     }
   }
 
@@ -98,7 +95,7 @@ public class ClientController extends HttpServlet {
     String type = pathInfo.substring(1);
 
     try (JsonReader jsonReader = Json.createReader(request.getInputStream())) {
-      JsonObject jsonObject = ((jakarta.json.JsonReader) jsonReader).readObject();
+      JsonObject jsonObject = (jsonReader).readObject();
       switch (type) {
         case "add":
           handleAddClient(jsonObject, response);

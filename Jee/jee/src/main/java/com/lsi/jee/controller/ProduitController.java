@@ -39,29 +39,6 @@ public class ProduitController extends HttpServlet {
       response.getWriter().write("Invalid request path.");
     }
   }
-
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
-
-    String pathInfo = request.getPathInfo();
-    if (pathInfo != null && pathInfo.startsWith("/") && pathInfo.length() > 1) {
-      handlePostRequestByType(pathInfo, request, response);
-    } else {
-      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      response.getWriter().write("{\"error\": \"Invalid request path.\"}");
-    }
-  }
-
-  // Utility methods for doGet
-
-  private void showAllProduits(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    List<Produit> produitList = produitService.getAllProduits();
-    request.setAttribute("produitList", produitList);
-    request.getRequestDispatcher("/WEB-INF/view/produitList.jsp").forward(request, response);
-  }
-
   private void handleGetRequestByType(String pathInfo, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String type = pathInfo.substring(1);
     if (pathInfo.startsWith("/edit")) {
@@ -75,23 +52,19 @@ public class ProduitController extends HttpServlet {
     }
   }
 
-  private void handleProduitDetailsOrError(String type, HttpServletRequest request, HttpServletResponse response) throws IOException {
-    try {
-      Long id = Long.parseLong(type);
-      Produit produit = produitService.getProduit(id);
-      if (produit != null) {
-        request.setAttribute("produit", produit);
-        request.getRequestDispatcher("/WEB-INF/view/oneProduit.jsp").forward(request, response);
-      } else {
-        response.getWriter().write("Produit not found for ID: " + id);
-      }
-    } catch (NumberFormatException e) {
-      response.getWriter().write("Invalid ID format: " + type);
-    } catch (ServletException e) {
-      throw new RuntimeException(e);
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+
+    String pathInfo = request.getPathInfo();
+    if (pathInfo != null && pathInfo.startsWith("/") && pathInfo.length() > 1) {
+      handlePostRequestByType(pathInfo, request, response);
+    } else {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().write("{\"error\": \"Invalid request path.\"}");
     }
   }
-
   // Utility methods for doPost
 
   private void handlePostRequestByType(String pathInfo, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -119,6 +92,35 @@ public class ProduitController extends HttpServlet {
       response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
     }
   }
+
+
+  // Utility methods for doGet
+
+  private void showAllProduits(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    List<Produit> produitList = produitService.getAllProduits();
+    request.setAttribute("produitList", produitList);
+    request.getRequestDispatcher("/WEB-INF/view/produitList.jsp").forward(request, response);
+  }
+
+
+
+  private void handleProduitDetailsOrError(String type, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    try {
+      Long id = Long.parseLong(type);
+      Produit produit = produitService.getProduit(id);
+      if (produit != null) {
+        request.setAttribute("produit", produit);
+        request.getRequestDispatcher("/WEB-INF/view/oneProduit.jsp").forward(request, response);
+      } else {
+        response.getWriter().write("Produit not found for ID: " + id);
+      }
+    } catch (NumberFormatException e) {
+      response.getWriter().write("Invalid ID format: " + type);
+    } catch (ServletException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
 
   private void handleAddProduit(JsonObject jsonObject, HttpServletResponse response) throws IOException {
     String nomProduit = jsonObject.getString("nomProduit");
