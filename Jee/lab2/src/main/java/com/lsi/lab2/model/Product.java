@@ -22,10 +22,10 @@ public class Product implements Serializable {
   private Long id;
   @Column(nullable = false)
   private String name;
+  @Column(nullable = false)
+  private Double price;
 
-  // Cascade REMOVE on the cart-products relationship to delete cart entries when product is deleted
-  @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)  // Propagate remove operation
-  private List<Cart> carts;
+
 
 
 

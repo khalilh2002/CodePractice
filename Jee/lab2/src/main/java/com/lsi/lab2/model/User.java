@@ -2,16 +2,14 @@ package com.lsi.lab2.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "users") // Avoid using reserved keywords like "USER"
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +26,7 @@ public class User implements Serializable {
   private String email;
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "cart_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_user_cart"))
+  @JoinColumn(name = "cart_id")
   private Cart cart;
 
 
@@ -47,5 +45,10 @@ public class User implements Serializable {
   @PreUpdate
   private void onUpdate() {
     updatedAt = LocalDateTime.now();
+  }
+
+  @Override
+  public String toString() {
+    return id+" username "+username + " password "+password;
   }
 }

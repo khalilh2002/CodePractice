@@ -8,25 +8,14 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-import java.io.Serializable;
-
 @ApplicationScoped
-public class EntityManagerProvider implements Serializable {
+public class EntityManagerProvider {
 
   private final EntityManagerFactory entityManagerFactory;
 
   // Initialize the EntityManagerFactory at application startup
   public EntityManagerProvider() {
     this.entityManagerFactory = Persistence.createEntityManagerFactory("default");
-    generateSchema();
-
-  }
-  private void generateSchema() {
-    // Create an entity manager to trigger schema creation on the first run
-    try (EntityManager em = entityManagerFactory.createEntityManager()) {
-      // No need to do anything specific here; just opening the EM
-      // triggers schema creation based on the ddl-generation property
-    }
   }
 
   // Produce an EntityManager for each request or transaction
@@ -42,5 +31,4 @@ public class EntityManagerProvider implements Serializable {
       entityManager.close();
     }
   }
-
 }

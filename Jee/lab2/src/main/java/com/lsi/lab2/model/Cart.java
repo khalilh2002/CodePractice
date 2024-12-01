@@ -1,24 +1,19 @@
 package com.lsi.lab2.model;
 
 
-import com.mysql.cj.xdevapi.Client;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import com.lsi.lab2.model.Product;
-import com.lsi.lab2.model.User;
 
-import java.util.List;
 
 @Entity
 @Table(name = "carts")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -36,8 +31,10 @@ public class Cart implements Serializable {
   public List<Product> products;
 
 
+
   @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_cart_user"))
+  @JsonIgnore
   private User user;
 
   private LocalDateTime createdAt;
@@ -53,5 +50,9 @@ public class Cart implements Serializable {
   @PreUpdate
   private void onUpdate() {
     updatedAt = LocalDateTime.now();
+  }
+  @Override
+  public String toString() {
+    return id+" cart " ;
   }
 }
