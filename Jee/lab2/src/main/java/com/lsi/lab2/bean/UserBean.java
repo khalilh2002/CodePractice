@@ -1,9 +1,7 @@
 package com.lsi.lab2.bean;
 
 import com.lsi.lab2.model.User;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -18,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Named
-@ApplicationScoped
+@RequestScoped
 public class UserBean implements Serializable {
 
   @Inject

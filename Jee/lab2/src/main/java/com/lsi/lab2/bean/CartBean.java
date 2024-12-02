@@ -52,6 +52,7 @@ public class CartBean implements Serializable {
     return entityManager.createQuery("SELECT p FROM Product p", Product.class).getResultList();
   }
   public Cart getCart() {
+
     if (cart == null) {
       User currentUser = loginBean.getLoggedInUser(); // Fetch logged-in user
       if (currentUser != null) {
@@ -64,6 +65,8 @@ public class CartBean implements Serializable {
         throw new IllegalStateException("No user is logged in.");
       }
     }
+    entityManager.refresh(cart); // Ensure cart reflects the current database state
+
     return cart;
   }
   private Cart createNewCartForUser(Long userId) {
@@ -115,6 +118,7 @@ public class CartBean implements Serializable {
       entityManager.getTransaction().begin();
       entityManager.merge(userCart); // Update the cart in the database
       entityManager.getTransaction().commit();
+
     }
   }
 }

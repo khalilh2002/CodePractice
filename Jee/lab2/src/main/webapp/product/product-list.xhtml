@@ -20,6 +20,8 @@
         </p:column>
         <p:column headerText="Actions">
           <p:commandButton value="Add to Cart" action="#{cartBean.addToCart(product)}" icon="pi pi-shopping-cart" />
+          <p:commandButton value="Delete" action="#{productBean.deleteProduct(product.id)}" icon="pi pi-bin" styleClass="ui-button-danger" />
+
         </p:column>
       </p:dataTable>
 

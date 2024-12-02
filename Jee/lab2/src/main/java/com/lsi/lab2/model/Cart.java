@@ -22,14 +22,14 @@ public class Cart implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
   @JoinTable(
     name = "cart_products",
     joinColumns = @JoinColumn(name = "cart_id"),
     inverseJoinColumns = @JoinColumn(name = "product_id")
   )
-  public List<Product> products;
-
+  @JsonIgnore
+  private List<Product> products;
 
 
   @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)

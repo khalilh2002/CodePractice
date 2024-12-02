@@ -25,6 +25,10 @@ public class Product implements Serializable {
   @Column(nullable = false)
   private Double price;
 
+  @ManyToMany(mappedBy = "products", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+  private List<Cart> carts;
+
+
 
 
 
