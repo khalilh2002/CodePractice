@@ -10,7 +10,7 @@ Welcome to the Multi-Language Projects Repository! This repository contains vari
 - [Python Projects](#python-projects)
 - [React-Laravel Projects](#react-laravel-projects)
 - [Spring Boot Projects](#spring-boot-projects)
-- [JEE Jakarta Projects](#jee-jakrata-projects)
+- [JEE Jakarta Projects](#jee-jakarta-projects)
 
 ## C Projects
 
