@@ -4,13 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
   <title>Add User</title>
 
 </h:head>
 <h:body>
+  <ui:include src="/navbar.xhtml" />
+
   <div class="cropper-container">
     <h1>Add New User</h1>
     <h:form styleClass="center">
@@ -37,7 +38,7 @@
         <p:commandButton value="Save" action="#{userBean.save}" update="messages" styleClass="save-button" />
 
       </div>
-      <p:commandButton value="Back to User List" action="#{userBean.navigateToAllUsers()}" styleClass="ui-button-danger" />
+      <p:commandButton value="Back to User List" action="#{userBean.navigateToAllUsers()}" immediate="true" styleClass="ui-button-danger" />
 
 
       <!-- Optional: Display any messages (e.g., success or error) -->

@@ -3,19 +3,23 @@ package com.lsi.lab2.bean;
 import com.lsi.lab2.model.Cart;
 import com.lsi.lab2.model.Product;
 import com.lsi.lab2.model.User;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import lombok.Data;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Named
-@ApplicationScoped
+@RequestScoped
 public class CartBean implements Serializable {
 
   @Inject
@@ -25,6 +29,24 @@ public class CartBean implements Serializable {
   private LoginBean loginBean; // Inject LoginBean to get the logged-in user
 
   private Cart cart; // Holds the current cart
+
+  @PostConstruct
+  public void init() {
+
+    ensureLoggedIn();
+  }
+  public void ensureLoggedIn() {
+    if (!loginBean.isLoggedIn()) {
+      try {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getExternalContext().redirect(facesContext.getExternalContext().getRequestContextPath() + "/login.xhtml");
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+
 
   public List<Product> getProducts() {
     return entityManager.createQuery("SELECT p FROM Product p", Product.class).getResultList();

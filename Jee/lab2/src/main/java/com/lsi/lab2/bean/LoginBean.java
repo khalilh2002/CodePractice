@@ -35,18 +35,15 @@ public class LoginBean implements Serializable {
         .setParameter("username", username)
         .setParameter("password", password)
         .getSingleResult();
-        System.out.println("------------------------------------------------------------------------------------------------Logged in user: " + user);
 
         loggedInUser = user;
       return "/user/user-all.xhtml?faces-redirect=true";
 
     } catch (NoResultException e) {
       // No user found with the given credentials
-      System.out.println("------------------------------------------------------------------------------------------------no resutl found");
       loggedInUser = null;
     } catch (Exception e) {
       e.printStackTrace();
-      System.out.println("------------------------------------------------------------------------------------------------exception "+e.getMessage());
     }
 
     return "login.xhtml?faces-redirect=true"; // Redirect back to login on failure
