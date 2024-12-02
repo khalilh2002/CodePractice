@@ -12,7 +12,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-
+<%
+  String redirectURL = "./index.xhtml";
+  response.sendRedirect(redirectURL);
+%>
 <!-- Main container -->
 <div class="container mt-5">
   <!-- Card for content -->

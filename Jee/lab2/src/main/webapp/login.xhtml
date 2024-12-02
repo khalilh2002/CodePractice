@@ -13,6 +13,13 @@
   <ui:include src="navbar.xhtml" />
 
   <p:panel header="Login" style="width: 30%; margin: 100px auto;">
+    <div style=" margin: 5px">
+      <p:outputLabel styleClass="ui-badge ui-badge-info" value="Info: Username: 'test' / Password: 'test'" />
+
+      <p:outputLabel styleClass="ui-badge ui-badge-secondary" style="margin-top: 5px" value="Info: or any username and password in user list in user list" />
+
+    </div>
+    <br/>
     <h:form>
       <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 

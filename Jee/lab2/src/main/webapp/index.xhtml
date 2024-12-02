@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome</title>
+</h:head>
+<h:body>
+  <h:form>
+    <!-- PrimeFaces Panel for layout -->
+    <p:panel header="Welcome" style="margin: 50px auto; max-width: 600px;">
+
+      <h1 style="text-align: center;">Welcome to the Application!</h1>
+
+      <!-- Buttons styled with PrimeFaces -->
+      <div style="text-align: center; margin-top: 20px;">
+        <p:commandButton value="User List" action="/user/user-all.xhtml?faces-redirect=true"
+                         icon="pi pi-users" styleClass="p-button-lg p-button-primary" />
+
+        <p:commandButton value="User Add" action="/user/user-add.xhtml?faces-redirect=true"
+                         icon="pi pi-user-plus" styleClass="p-button-lg p-button-success" />
+
+        <p:commandButton value="Product List" action="/product/product-list.xhtml?faces-redirect=true"
+                         icon="pi pi-shopping-bag" styleClass="p-button-lg p-button-info" />
+
+        <p:commandButton value="Login" action="/login.xhtml?faces-redirect=true"
+                         icon="pi pi-sign-in" styleClass="p-button-lg p-button-warning" />
+
+        <p:commandButton value="Go to Cart" action="/cart/cart.xhtml?faces-redirect=true"
+                         icon="pi pi-shopping-cart" styleClass="p-button-lg p-button-danger" style="margin-top: 20px;" />
+      </div>
+
+      <div style="text-align: center; margin-top: 20px;">
+        <h4>You need to be logged in to access the cart.</h4>
+      </div>
+
+    </p:panel>
+  </h:form>
+</h:body>
+</html>

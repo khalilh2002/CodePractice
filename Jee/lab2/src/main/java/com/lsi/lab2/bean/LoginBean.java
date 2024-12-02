@@ -1,6 +1,7 @@
 package com.lsi.lab2.bean;
 
 import com.lsi.lab2.model.User;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
@@ -26,6 +27,35 @@ public class LoginBean implements Serializable {
   private String password;
   @Getter
   private User loggedInUser;
+
+
+  @PostConstruct
+  public void init() {
+    if (entityManager == null) {
+      System.err.println("EntityManager is null in LoginBean.init()");
+      return; // Exit if EntityManager is not available
+    }
+
+    try {
+      // Check if a user with the username "test" exists
+      User user = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+        .setParameter("username", "test")
+        .getSingleResult();
+      // User already exists, no need to do anything
+    } catch (NoResultException e) {
+      User user = new User();
+      user.setUsername("test");
+      user.setPassword("test");
+      user.setEmail("test@test.com");
+      entityManager.getTransaction().begin();
+      entityManager.persist(user);
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      // Log or handle unexpected exceptions
+    }
+  }
+
 
   public String login() {
     try {
