@@ -8,27 +8,24 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-   <title>User Details</title>
+  <title>User Details</title>
 </h:head>
 <h:body>
+  <p:panel header="User Details" style="width: 50%; margin: 20px auto;">
+    <h:form>
+      <p:outputLabel value="Username: " />
+      <h:outputText value="#{userBean.user.username}" /><br/>
 
-   <h1>User Details</h1>
+      <p:outputLabel value="Email: " />
+      <h:outputText value="#{userBean.user.email}" /><br/>
 
-   <h:form>
-      <h:panelGrid columns="2" cellpadding="5">
-         <h:outputLabel value="Username:" for="username" />
-         <h:outputText id="username" value="#{userBean.user.username}" />
+      <p:outputLabel value="Password: " />
+      <h:outputText value="#{userBean.user.password}" /><br/>
 
-         <h:outputLabel value="Email:" for="email" />
-         <h:outputText id="email" value="#{userBean.user.email}" />
-
-         <h:outputLabel value="Password:" for="password" />
-         <h:outputText id="password" value="#{userBean.user.password}" />
-      </h:panelGrid>
-
-      <h:commandButton value="Back to User List" action="user-list?faces-redirect=true" />
-   </h:form>
-
+      <div style="margin-top: 20px; text-align: right;">
+        <p:commandButton value="Back to User List" action="user-all.xhtml?faces-redirect=true" icon="pi pi-arrow-left" />
+      </div>
+    </h:form>
+  </p:panel>
 </h:body>
-
 </html>

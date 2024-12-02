@@ -8,30 +8,42 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head>
   <title>Add User</title>
+
 </h:head>
 <h:body>
+  <div class="cropper-container">
+    <h1>Add New User</h1>
+    <h:form styleClass="center">
+      <div class="form">
+        <!-- Username -->
+        <h:outputLabel for="username" value="Username:" />
+        <p:inputText id="username" value="#{userBean.username}" required="true" label="Username" styleClass="input-field" />
+      </div>
 
-  <h1>Add New User</h1>
-  <h:form>
-    <!-- Username -->
-    <h:outputLabel for="username" value="Username:" />
-    <p:inputText id="username" value="#{userBean.username}" required="true" label="Username" />
+      <div class="form-group">
+        <!-- Email -->
+        <h:outputLabel for="email" value="Email:" />
+        <p:inputText id="email" value="#{userBean.email}" required="true" label="Email" styleClass="input-field" />
+      </div>
 
-    <!-- Email -->
-    <h:outputLabel for="email" value="Email:" />
-    <p:inputText id="email" value="#{userBean.email}" required="true" label="Email" />
+      <div class="form-group">
+        <!-- Password -->
+        <h:outputLabel for="password" value="Password:" />
+        <p:password id="password" value="#{userBean.password}" required="true" label="Password" styleClass="input-field" />
+      </div>
 
-    <!-- Password -->
-    <h:outputLabel for="password" value="Password:" />
-    <p:password id="password" value="#{userBean.password}" required="true" label="Password" />
+      <div style="text-align: center; margin-top: 20px;">
+        <!-- Save Button -->
+        <p:commandButton value="Save" action="#{userBean.save}" update="messages" styleClass="save-button" />
 
-    <!-- Save Button -->
-    <p:commandButton value="Save" action="#{userBean.save}" update="messages" />
+      </div>
+      <p:commandButton value="Back to User List" action="#{userBean.navigateToAllUsers()}" styleClass="ui-button-danger" />
 
-    <!-- Optional: Display any messages (e.g., success or error) -->
-    <p:growl id="messages" showDetail="true" />
-  </h:form>
 
+      <!-- Optional: Display any messages (e.g., success or error) -->
+      <p:growl id="messages" showDetail="true" />
+    </h:form>
+
+  </div>
 </h:body>
-
 </html>

@@ -54,6 +54,7 @@ public class UserBean implements Serializable {
 
   public String loadUser(Long userId) {
     this.user = entityManager.find(User.class, userId);
+    System.out.println(user);
     return "user-view.xhtml?faces-redirect=true";
   }
 
@@ -64,6 +65,10 @@ public class UserBean implements Serializable {
 
   public String navigateToAddUser() {
     return "user-add?faces-redirect=true"; // Correct redirection to user-add.xhtml
+  }
+  public String navigateToAllUsers() {
+    return "user-all.xhtml?faces-redirect=true"; // Redirect to user list after saving
+
   }
 
 

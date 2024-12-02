@@ -8,27 +8,27 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-   <title>User List</title>
+  <title>User List</title>
 </h:head>
 <h:body>
-   <h1>Users</h1>
-  <h:form>
-    <p:dataTable value="#{userBean.users}" var="user">
-      <p:column>
-        <f:facet name="header">Username</f:facet>
-        #{user.username}
-      </p:column>
-      <p:column>
-        <f:facet name="header">Email</f:facet>
-        #{user.email}
-      </p:column>
-      <p:column>
-        <f:facet name="header">Actions</f:facet>
-        <h:commandButton value="View" action="#{userBean.loadUser(user.id)}" />
-      </p:column>
-    </p:dataTable>
-    <h:commandButton value="Add New User" action="#{userBean.navigateToAddUser()}" />
-  </h:form>
+  <p:panel header="User List" style="width: 80%; margin: 20px auto;">
+    <h:form>
+      <p:dataTable value="#{userBean.users}" var="user" paginator="true" rows="10" responsiveLayout="scroll">
+        <p:column headerText="Username">
+          #{user.username}
+        </p:column>
+        <p:column headerText="Email">
+          #{user.email}
+        </p:column>
+        <p:column headerText="Actions">
+          <p:commandButton value="View" action="#{userBean.loadUser(user.id)}" icon="pi pi-search" />
+        </p:column>
+      </p:dataTable>
 
+      <div style="margin-top: 20px; text-align: right;">
+        <p:commandButton value="Add New User" action="#{userBean.navigateToAddUser()}" icon="pi pi-plus" />
+      </div>
+    </h:form>
+  </p:panel>
 </h:body>
 </html>
