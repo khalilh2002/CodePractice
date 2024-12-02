@@ -2,9 +2,8 @@ package com.lsi.lab2.bean;
 
 import com.lsi.lab2.model.User;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.view.ViewScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -25,37 +24,85 @@ public class UserBean implements Serializable {
   @Inject
   private EntityManager entityManager;
 
+  @Inject
+  private LoginBean loginBean;
+
   private String username;
   private String email;
   private String password;
   private User user;
+
+  private String error;
 
 
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 
 
-  public String save(){
-    User user = User.builder()
-      .username(username)
-      .email(email)
-      .password(password)
-      .build();
-    if (user.getId()!=null && !entityManager.contains(user)) {
-      entityManager.merge(user);
+  public String save() {
+    try {
+      User user = User.builder()
+        .username(username)
+        .email(email)
+        .password(password)
+        .build();
+
+      entityManager.getTransaction().begin();
+      if (user.getId() != null && !entityManager.contains(user)) {
+        entityManager.merge(user);
+      } else {
+        entityManager.persist(user);
+      }
+      entityManager.getTransaction().commit();
+      return "user-all.xhtml?faces-redirect=true"; // Redirect to user list after saving
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+      error = "Error saving user: " + e.getMessage();
+      e.printStackTrace();
+      return null; // Stay on the same page
     }
-    entityManager.getTransaction().begin();
-    entityManager.persist(user);
-    entityManager.getTransaction().commit();
-    return "user-all.xhtml?faces-redirect=true"; // Redirect to user list after saving
+  }
 
+  public String deleteUser(long id) {
+    try {
+      if (loginBean.isLoggedIn() && loginBean.getLoggedInUser().getId() == id) {
+        error = "User is logged in and cannot be deleted.";
+        return "user-all.xhtml?faces-redirect=true";
+      }
 
+      User user = entityManager.find(User.class, id);
+      if (user == null) {
+        error = "User not found.";
+        return "user-all.xhtml?faces-redirect=true";
+      }
+
+      entityManager.getTransaction().begin();
+      entityManager.remove(user);
+      entityManager.getTransaction().commit();
+      error = ""; // Clear error if successful
+      return "user-all.xhtml?faces-redirect=true";
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+      error = "Error deleting user: " + e.getMessage();
+      e.printStackTrace();
+      return null; // Stay on the same page
+    }
   }
 
   public String loadUser(Long userId) {
-    this.user = entityManager.find(User.class, userId);
-    System.out.println(user);
-    return "user-view.xhtml?faces-redirect=true";
+    try {
+      this.user = entityManager.find(User.class, userId);
+      if (user == null) {
+        error = "User not found.";
+        return null; // Stay on the same page
+      }
+      error = ""; // Clear error if successful
+      return "user-view.xhtml?faces-redirect=true";
+    } catch (Exception e) {
+      error = "Error loading user: " + e.getMessage();
+      e.printStackTrace();
+      return null; // Stay on the same page
+    }
   }
 
   public List<User> getUsers() {
@@ -70,6 +117,7 @@ public class UserBean implements Serializable {
     return "user-all.xhtml?faces-redirect=true"; // Redirect to user list after saving
 
   }
+
 
 
 
