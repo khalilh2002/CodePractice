@@ -10,6 +10,7 @@ Welcome to the Multi-Language Projects Repository! This repository contains vari
 - [Python Projects](#python-projects)
 - [React-Laravel Projects](#react-laravel-projects)
 - [Spring Boot Projects](#spring-boot-projects)
+- [JEE Jakarta Projects](#jee-jakrata-projects)
 
 ## C Projects
 
@@ -174,5 +175,14 @@ Welcome to the Multi-Language Projects Repository! This repository contains vari
 - this will be added later after finishing the microservices project
 
 Feel free to explore and contribute to these projects. If you have any questions or need further information, check the respective README.md files in each project directory.
+
+
+## JEE Jakarta Projects
+
+- this will be added later after finishing the microservices project
+
+Feel free to explore and contribute to these projects. If you have any questions or need further information, check the respective README.md files in each project directory.
+
+Happy coding!
 
 Happy coding!
