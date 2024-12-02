@@ -37,32 +37,43 @@ public class CartBean implements Serializable {
           .setParameter("userId", currentUser.getId())
           .getResultStream()
           .findFirst()
-          .orElseGet(() -> createNewCartForUser(currentUser));
+          .orElseGet(() -> createNewCartForUser(currentUser.getId()));
       } else {
         throw new IllegalStateException("No user is logged in.");
       }
     }
     return cart;
   }
-  private Cart createNewCartForUser(User user) {
-    if (user.getCart() != null) {
-      return user.getCart(); // Return the existing cart if already associated
+  private Cart createNewCartForUser(Long userId) {
+    // Find the user by ID
+    User user = entityManager.find(User.class, userId);
+    if (user == null) {
+      throw new IllegalArgumentException("User does not exist with ID: " + userId);
     }
 
+    // Check if the user already has a cart
+    if (user.getCart() != null) {
+      return user.getCart(); // Return the existing cart
+    }
+
+    // Create and associate a new cart
     Cart newCart = new Cart();
     newCart.setUser(user);
     newCart.setProducts(new ArrayList<>());
 
+    // Persist the cart and update the user
     entityManager.getTransaction().begin();
     entityManager.persist(newCart);
-    user.setCart(newCart); // Associate cart with the user
-    entityManager.merge(user); // Update the user
+    user.setCart(newCart); // Associate the cart with the user
+    entityManager.merge(user); // Ensure the user entity is updated
     entityManager.getTransaction().commit();
 
     return newCart;
   }
 
+
   public void addToCart(Product product) {
+    System.out.println(product);
     Cart userCart = getCart(); // Ensure cart is initialized
     if (userCart == null || loginBean.getLoggedInUser() == null) {
       throw new IllegalStateException("No cart or user found.");
