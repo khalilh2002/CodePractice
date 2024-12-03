@@ -4,7 +4,6 @@ import com.lsi.lab2.model.Cart;
 import com.lsi.lab2.model.Product;
 import com.lsi.lab2.model.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
@@ -32,9 +31,10 @@ public class CartBean implements Serializable {
 
   @PostConstruct
   public void init() {
-
     ensureLoggedIn();
   }
+
+
   public void ensureLoggedIn() {
     if (!loginBean.isLoggedIn()) {
       try {
