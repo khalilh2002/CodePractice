@@ -42,6 +42,7 @@ public class CartBean implements Serializable {
         facesContext.getExternalContext().redirect(facesContext.getExternalContext().getRequestContextPath() + "/login.xhtml");
       } catch (IOException e) {
         e.printStackTrace();
+
       }
     }
   }
