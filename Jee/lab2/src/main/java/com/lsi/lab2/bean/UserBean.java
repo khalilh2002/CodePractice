@@ -69,19 +69,21 @@ public class UserBean implements Serializable {
         error = "User is logged in and cannot be deleted.";
         return "user-all.xhtml?faces-redirect=true";
       }
-
       User user = entityManager.find(User.class, id);
       if (user == null) {
-        error = "User not found.";
-        return "user-all.xhtml?faces-redirect=true";
-      }
+        throw new UserNotFoundException(String.valueOf(id));
 
+      }
       entityManager.getTransaction().begin();
       entityManager.remove(user);
       entityManager.getTransaction().commit();
       error = ""; // Clear error if successful
       cleanUser();
       return "user-all.xhtml?faces-redirect=true";
+    }catch (UserNotFoundException e) {
+      error = "User not found.";
+      return "user-all.xhtml?faces-redirect=true";
+
     } catch (Exception e) {
       entityManager.getTransaction().rollback();
       error = "Error deleting user: " + e.getMessage();

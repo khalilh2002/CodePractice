@@ -25,7 +25,7 @@ public class HelloServlet extends HttpServlet {
     response.setContentType("text/html");
     // Hello
     if (entityManager == null) {
-      throw new EntityMangerIsNullException("entityManager is null");
+      throw new EntityMangerIsNullException();
     }
 
     PrintWriter out = response.getWriter();
