@@ -38,8 +38,11 @@ public class LoginBean implements Serializable {
 
     try {
       // Check if a user with the username "test" exists
-      User user = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+      User user = entityManager.createQuery(
+        "SELECT u FROM User u WHERE u.username = :username or u.email = :email"
+          , User.class)
         .setParameter("username", "test")
+        .setParameter("email", "test@test.com")
         .getSingleResult();
       // User already exists, no need to do anything
     } catch (NoResultException e) {
@@ -51,7 +54,9 @@ public class LoginBean implements Serializable {
       entityManager.persist(user);
       entityManager.getTransaction().commit();
     } catch (Exception e) {
+
       e.printStackTrace();
+
       // Log or handle unexpected exceptions
     }
   }

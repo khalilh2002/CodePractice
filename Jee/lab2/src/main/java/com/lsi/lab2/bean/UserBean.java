@@ -53,6 +53,7 @@ public class UserBean implements Serializable {
         entityManager.persist(user);
       }
       entityManager.getTransaction().commit();
+      cleanUser();
       return "user-all.xhtml?faces-redirect=true"; // Redirect to user list after saving
     } catch (Exception e) {
       entityManager.getTransaction().rollback();
@@ -79,6 +80,7 @@ public class UserBean implements Serializable {
       entityManager.remove(user);
       entityManager.getTransaction().commit();
       error = ""; // Clear error if successful
+      cleanUser();
       return "user-all.xhtml?faces-redirect=true";
     } catch (Exception e) {
       entityManager.getTransaction().rollback();
@@ -113,10 +115,9 @@ public class UserBean implements Serializable {
     return "user-add?faces-redirect=true"; // Correct redirection to user-add.xhtml
   }
   public String navigateToAllUsers() {
+    cleanUser();
     return "user-all.xhtml?faces-redirect=true"; // Redirect to user list after saving
-
   }
-
 
   public String editUser(Long id) {
     try{
@@ -140,7 +141,14 @@ public class UserBean implements Serializable {
     }catch (Exception e) {
       error = "Error updating user: " + e.getMessage();
     }
-
+      cleanUser();
       return "user-all.xhtml?faces-redirect=true";
+  }
+
+  private void cleanUser(){
+    this.user = null;
+    this.username = null;
+    this.email = null;
+    this.password = null;
   }
 }

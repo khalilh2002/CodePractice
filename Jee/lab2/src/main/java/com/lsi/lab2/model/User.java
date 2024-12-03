@@ -25,7 +25,7 @@ public class User implements Serializable {
   @Column(unique = true, nullable = false)
   private String email;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = {CascadeType.PERSIST , CascadeType.MERGE, CascadeType.REFRESH})
   @JoinColumn(name = "cart_id")
   private Cart cart;
 

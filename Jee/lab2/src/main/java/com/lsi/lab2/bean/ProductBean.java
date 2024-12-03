@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @Named
-@RequestScoped
+@ApplicationScoped
 public class ProductBean implements Serializable {
 
   @Inject
@@ -21,6 +21,7 @@ public class ProductBean implements Serializable {
 
   private String name;
   private Double price;
+  private Product product;
 
   public String saveProduct() {
     Product product = Product.builder()
@@ -32,7 +33,7 @@ public class ProductBean implements Serializable {
     entityManager.persist(product);
     entityManager.getTransaction().commit();
     entityManager.clear(); // Clear the persistence context
-
+    cleanProduct();
     return "product-list.xhtml?faces-redirect=true"; // Redirect to product list after saving
   }
 
@@ -51,5 +52,23 @@ public class ProductBean implements Serializable {
 
   public String navigateToAddProduct() {
     return "product-add?faces-redirect=true"; // Redirect to product-add.xhtml
+  }
+
+  public String navigateToEditProduct(Long id) {
+    this.product = entityManager.find(Product.class, id);
+    return "product-edit.xhtml?faces-redirect=true";
+  }
+  public String update(){
+    entityManager.getTransaction().begin();
+    entityManager.merge(product);
+    entityManager.getTransaction().commit();
+    cleanProduct();
+    return "product-list.xhtml?faces-redirect=true";
+  }
+
+  private void cleanProduct(){
+    name = null;
+    price = null;
+    this.product = null;
   }
 }
