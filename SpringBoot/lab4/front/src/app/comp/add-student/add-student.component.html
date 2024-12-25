@@ -1,0 +1,46 @@
+<div class="container mt-4">
+  <a [routerLink]="['/student/list']" class="btn btn-lg btn-danger m-3">back to List</a>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5>Add New Student</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="firstName" class="form-label">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            class="form-control"
+            formControlName="firstName"
+            placeholder="Enter first name"
+            [class.is-invalid]="studentForm.get('firstName')?.invalid && studentForm.get('firstName')?.touched"
+          />
+          <div class="invalid-feedback">
+            First Name is required and must be at least 2 characters long.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            class="form-control"
+            formControlName="lastName"
+            placeholder="Enter last name"
+            [class.is-invalid]="studentForm.get('lastName')?.invalid && studentForm.get('lastName')?.touched"
+          />
+          <div class="invalid-feedback">
+            Last Name is required and must be at least 2 characters long.
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="studentForm.invalid">Add Student</button>
+      </form>
+      <div *ngIf="this.successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+      <div *ngIf="this.errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+    </div>
+  </div>
+</div>

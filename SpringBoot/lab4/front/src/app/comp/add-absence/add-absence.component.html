@@ -1,0 +1,60 @@
+<div class="container mt-4">
+  <a [routerLink]="['/student/list']" class="btn btn-lg btn-danger m-3">back to List</a>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5>Add Absence</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="absenceForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="date" class="form-label">Date</label>
+          <input
+            type="date"
+            id="date"
+            class="form-control"
+            formControlName="date"
+            [class.is-invalid]="absenceForm.get('date')?.invalid && absenceForm.get('date')?.touched"
+          />
+          <div class="invalid-feedback">
+            Date is required.
+          </div>
+        </div>
+
+        <div class="mb-3 form-check">
+          <input
+            type="checkbox"
+            id="haveReason"
+            class="form-check-input"
+            formControlName="haveReason"
+          />
+          <label for="haveReason" class="form-check-label">Has a reason</label>
+        </div>
+
+        <div class="mb-3">
+          <label for="reason" class="form-label">Reason</label>
+          <textarea
+            id="reason"
+            class="form-control"
+            formControlName="reason"
+            rows="3"
+            placeholder="Enter the reason (optional)"
+            [disabled]="!absenceForm.get('haveReason')?.value"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="absenceForm.invalid">
+          Add Absence
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

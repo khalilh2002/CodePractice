@@ -2,7 +2,6 @@ package com.lsi.lab2.bean;
 
 import com.lsi.lab2.model.Product;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -50,9 +49,6 @@ public class ProductBean implements Serializable {
     return "product-list.xhtml?faces-redirect=true";
   }
 
-  public String navigateToAddProduct() {
-    return "product-add?faces-redirect=true"; // Redirect to product-add.xhtml
-  }
 
   public String navigateToEditProduct(Long id) {
     this.product = entityManager.find(Product.class, id);

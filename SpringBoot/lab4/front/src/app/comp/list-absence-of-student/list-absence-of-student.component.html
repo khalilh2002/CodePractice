@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <a [routerLink]="['/student/list']" class="btn btn-lg btn-danger m-3">back to List</a>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!errorMessage">
+    <h4>List of Absences</h4>
+    <div *ngIf="absences.length === 0" class="alert alert-info">
+      No absences recorded for this student.
+    </div>
+    <table *ngIf="absences.length > 0" class="table table-bordered mt-3">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Reason Given</th>
+          <th>Reason</th>
+          <th>action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let absence of absences">
+          <td>{{ absence.id }}</td>
+          <td>{{ absence.date  }}</td>
+          <td>{{ absence.haveReason ? 'Yes' : 'No' }}</td>
+          <td>{{ absence.reason || 'N/A' }}</td>
+          <td>
+            <button (click)="deleteAbsence(absence.id)" class="btn btn-danger">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

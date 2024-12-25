@@ -2,16 +2,13 @@ package com.lsi.lab2.bean;
 
 import com.lsi.lab2.exception.UserNotFoundException;
 import com.lsi.lab2.model.User;
-import jakarta.el.MethodExpression;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter

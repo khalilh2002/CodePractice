@@ -3,10 +3,8 @@ package com.lsi.lab2.bean;
 import com.lsi.lab2.model.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.persistence.PersistenceContext;
 import lombok.Data;
 
 import jakarta.persistence.EntityManager;
